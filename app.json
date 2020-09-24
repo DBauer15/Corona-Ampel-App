@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "coron-ampel-app",
-    "slug": "coron-ampel-app",
+    "name": "Corona Ampel App",
+    "slug": "corona-ampel-app",
     "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,12 @@
     "android": {
       "package": "com.davidbauer.coronaampel",
       "versionCode": 3,
-      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      "icon": "./assets/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/iconFG.png",
+        "backgroundImage": "./assets/iconBG.png"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
