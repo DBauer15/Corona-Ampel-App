@@ -3,8 +3,7 @@ import { ActivityIndicator, Text, View, SafeAreaView, ScrollView, RefreshControl
 import * as Location from 'expo-location';
 import ErrorMessages from '../utils'
 
-const SERVER_ADDRESS = 'http://18.188.89.203:8080/'
-//const SERVER_ADDRESS = 'http://192.168.1.100:5000/'
+const SERVER_ADDRESS = 'http://3.125.113.165:8080/'
 
 class Home extends Component {
 
@@ -14,6 +13,7 @@ class Home extends Component {
       refreshing: false,
       status: 'LOADING',
       status_code: '',
+      status_message: { title: '', description: ''},
       location: '',
       info: '',
       style: {
@@ -115,11 +115,12 @@ class Home extends Component {
       .then(response => {
         if (response.status !== 200) {
           console.log('Looks like there was a problem. Status Code: ' + response.status)
-          response.text().then(data => {
+          response.json().then(data => {
             console.log(data)
             this.setState({ 
               status: 'ERROR', 
-              status_code: data,
+              status_code: data.code,
+              status_message: data.message,
               refreshing: false,
               style: {
                 ...this.state.style,
@@ -134,6 +135,7 @@ class Home extends Component {
             this.setState({
               status: 'OK',
               status_code: '',
+              status_message: { title: '', description: '' },
               refreshing: false,
               location: data.postcode,
               info: data.ampel_info.info,
@@ -170,8 +172,8 @@ class Home extends Component {
     } else if (this.state.status === 'ERROR') {
       contentView = (
         <View style={this.state.style.view}>
-          <Text style={this.state.style.textInfoHeading}>{ErrorMessages[this.state.status_code]['title']}</Text>
-          <Text style={this.state.style.textInfo}>{ErrorMessages[this.state.status_code]['description']}</Text>
+          <Text style={this.state.style.textInfoHeading}>{ErrorMessages[this.state.status_code]['title'].replace('$content$', this.state.status_message.title)}</Text>
+          <Text style={this.state.style.textInfo}>{ErrorMessages[this.state.status_code]['description'].replace('$content$', this.state.status_message.description)}</Text>
         </View>
       );
     }
